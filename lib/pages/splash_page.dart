@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_codelab_p4/classes.dart';
-import 'package:flutter_codelab_p4/pages/donutshop_main.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -22,7 +21,7 @@ class _SplashPageState extends State<SplashPage>
           ..repeat();
 
     rotationAnimation = Tween<double>(begin: 0, end: 1).animate(
-        CurvedAnimation(parent: donutController!, curve: Curves.linearToEaseOut));
+        CurvedAnimation(parent: donutController!, curve: Curves.linear));
   }
 
   @override
@@ -34,8 +33,7 @@ class _SplashPageState extends State<SplashPage>
   @override
   Widget build(BuildContext context) {
     Future.delayed(Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => DonutShopMain()));
+      Utils.mainAppNav.currentState!.pushReplacementNamed('/main');
     });
 
     return Scaffold(
