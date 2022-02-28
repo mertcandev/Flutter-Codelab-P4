@@ -15,6 +15,7 @@ class DonutCard extends StatelessWidget {
       children: [
         Container(
           width: 150,
+          padding: EdgeInsets.all(15),
           alignment: Alignment.bottomLeft,
           margin:
               const EdgeInsets.only(top: 80, left: 10, right: 10, bottom: 20),

@@ -29,32 +29,26 @@ class DonutFilterBar extends StatelessWidget {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: List.generate(donutService.filterBarItems.length,
-                      (index) {
-                    DonutFilterBarItem item =
-                        donutService.filterBarItems[index];
+              children:
+                  List.generate(donutService.filterBarItems.length, (index) {
+                DonutFilterBarItem item = donutService.filterBarItems[index];
 
-                    return GestureDetector(
-                      onTap: () {
-                        donutService.filteredDonutsByType(item.id!);
-                      },
-                      child: Container(
-                        child: Text(
-                          item.label!,
-                          style: TextStyle(
-                              color: donutService.selectDonutType == item.id
-                                  ? Utils.mainColor
-                                  : Colors.black,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    );
-                  }),
-                )
-              ],
+                return GestureDetector(
+                  onTap: () {
+                    donutService.filteredDonutsByType(item.id!);
+                  },
+                  child: Container(
+                    child: Text(
+                      item.label!,
+                      style: TextStyle(
+                          color: donutService.selectDonutType == item.id
+                              ? Utils.mainColor
+                              : Colors.black,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                );
+              }),
             ),
             SizedBox(height: 10),
             Stack(
