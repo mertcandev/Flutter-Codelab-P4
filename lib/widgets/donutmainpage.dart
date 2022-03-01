@@ -8,8 +8,6 @@ import 'package:flutter_codelab_p4/widgets/donutpager.dart';
 import 'package:provider/provider.dart';
 
 class DonutMainPage extends StatelessWidget {
-  const DonutMainPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -17,10 +15,13 @@ class DonutMainPage extends StatelessWidget {
         DonutPager(),
         DonutFilterBar(),
         Expanded(
-            child: Consumer<DonutService> (builder: (context, donutService, child) {
+          child: Consumer<DonutService>(
+            builder: (context, donutService, child) {
               return DonutList(donuts: donutService.filteredDonuts);
-            }))
-      ],
+            },
+          )
+        )
+      ]
     );
   }
 }

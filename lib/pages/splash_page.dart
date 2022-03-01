@@ -4,27 +4,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_codelab_p4/classes.dart';
 
 class SplashPage extends StatefulWidget {
-  @override
-  State<SplashPage> createState() => _SplashPageState();
+
+  @override 
+  SplashPageState createState() => SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage>
-    with SingleTickerProviderStateMixin {
+class SplashPageState extends State<SplashPage> 
+  with SingleTickerProviderStateMixin {
+
   AnimationController? donutController;
   Animation<double>? rotationAnimation;
 
   @override
   void initState() {
     super.initState();
-    donutController =
-        AnimationController(duration: Duration(seconds: 3), vsync: this)
-          ..repeat();
+    donutController = AnimationController(
+      duration: const Duration(seconds: 5), 
+      vsync: this)..repeat();
 
-    rotationAnimation = Tween<double>(begin: 0, end: 1).animate(
-        CurvedAnimation(parent: donutController!, curve: Curves.linear));
+    rotationAnimation = Tween<double>(begin: 0, end: 1)
+    .animate(CurvedAnimation(parent: donutController!, curve: Curves.linear));
   }
 
-  @override
+  @override 
   void dispose() {
     donutController!.dispose();
     super.dispose();
@@ -32,7 +34,8 @@ class _SplashPageState extends State<SplashPage>
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(seconds: 3), () {
+
+    Future.delayed(const Duration(seconds: 2), () {
       Utils.mainAppNav.currentState!.pushReplacementNamed('/main');
     });
 
@@ -44,13 +47,13 @@ class _SplashPageState extends State<SplashPage>
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             RotationTransition(
-                turns: rotationAnimation!,
-                child: Image.network(Utils.donutLogoWhiteNoText,
-                    width: 100, height: 100)),
+              turns: rotationAnimation!,
+              child: Image.network(Utils.donutLogoWhiteNoText, width: 100, height: 100),
+            ),
             Image.network(Utils.donutLogoWhiteText, width: 150, height: 150)
           ],
         ),
-      ),
+      )
     );
   }
 }

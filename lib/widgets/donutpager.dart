@@ -6,15 +6,17 @@ import 'package:flutter_codelab_p4/widgets/pageviewindicatior.dart';
 
 class DonutPager extends StatefulWidget {
   @override
-  _DonutPagerState createState() => _DonutPagerState();
+  State<DonutPager> createState() => _DonutPagerState();
 }
 
 class _DonutPagerState extends State<DonutPager> {
+
   List<DonutPage> pages = [
     DonutPage(imgUrl: Utils.donutPromo1, logoImgUrl: Utils.donutLogoWhiteText),
     DonutPage(imgUrl: Utils.donutPromo2, logoImgUrl: Utils.donutLogoWhiteText),
-    DonutPage(imgUrl: Utils.donutPromo3, logoImgUrl: Utils.donutLogoRedText)
+    DonutPage(imgUrl: Utils.donutPromo3, logoImgUrl: Utils.donutLogoRedText),
   ];
+
   int currentPage = 0;
   PageController? controller;
 
@@ -37,47 +39,47 @@ class _DonutPagerState extends State<DonutPager> {
       child: Column(
         children: [
           Expanded(
-              child: PageView(
-            scrollDirection: Axis.horizontal,
-            pageSnapping: true,
-            controller: controller,
-            physics: BouncingScrollPhysics(),
-            onPageChanged: (int page) {
-              setState(() {
-                currentPage = page;
-              });
-            },
-            children: List.generate(pages.length, (index) {
-              DonutPage currentPage = pages[index];
-              return Container(
-                alignment: Alignment.bottomLeft,
-                margin: EdgeInsets.all(20),
-                padding: EdgeInsets.all(30),
-                decoration: BoxDecoration(
+            child: PageView(
+              scrollDirection: Axis.horizontal,
+              pageSnapping: true,
+              controller: controller,
+              onPageChanged: (int page) {
+                setState(() {
+                  currentPage = page;
+                });
+              },
+              children: List.generate(pages.length, (index) {
+                DonutPage currentPage = pages[index];
+                return Container(
+                  alignment: Alignment.bottomLeft,
+                  margin: EdgeInsets.all(20),
+                  padding: EdgeInsets.all(30),
+                  decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     boxShadow: [
                       BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          blurRadius: 10,
-                          offset: Offset(0.0, 5.0))
+                        color: Colors.black.withOpacity(0.2), 
+                        blurRadius: 10, 
+                        offset: Offset(0.0, 5.0)
+                      )
                     ],
                     image: DecorationImage(
-                        image: NetworkImage(currentPage.imgUrl!),
-                        fit: BoxFit.cover)),
-                child: Image.network(
-                  currentPage.logoImgUrl!,
-                  width: 120,
-                ),
-              );
-            }),
-          )),
+                      image: NetworkImage(currentPage.imgUrl!),
+                      fit: BoxFit.cover
+                    )
+                  ),
+                  child: Image.network(currentPage.logoImgUrl!, width: 120)
+                );
+              })
+            )
+          ),
           PageViewIndicator(
-            controller: controller,
+            controller: controller, 
             numberOfPages: pages.length,
             currentPage: currentPage,
           )
         ],
-      ),
+      )
     );
   }
 }

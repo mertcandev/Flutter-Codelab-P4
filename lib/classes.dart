@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_function_literals_in_foreach_calls
+
 import 'package:flutter/material.dart';
 
 class Utils {
@@ -147,10 +149,11 @@ class Utils {
 }
 
 class DonutBottomBarSelectionService extends ChangeNotifier {
-  String? tabSelection = "main";
+
+  String? tabSelection = 'main';
 
   void setTabSelection(String selection) {
-    Utils.mainListNav.currentState!.pushReplacementNamed("/" + selection);
+    Utils.mainListNav.currentState!.pushReplacementNamed('/' + selection);
     tabSelection = selection;
     notifyListeners();
   }
@@ -172,24 +175,37 @@ class DonutFilterBarItem {
 }
 
 class DonutService extends ChangeNotifier {
+
   List<DonutFilterBarItem> filterBarItems = [
-    DonutFilterBarItem(id: "classic", label: "Classic"),
-    DonutFilterBarItem(id: "sprinkled", label: "Sprinkled"),
-    DonutFilterBarItem(id: "stuffed", label: "Stuffed")
+    DonutFilterBarItem(id: 'classic', label: 'Classic'),
+    DonutFilterBarItem(id: 'sprinkled', label: 'Sprinkled'),
+    DonutFilterBarItem(id: 'stuffed', label: 'Stuffed'),
   ];
 
-  String? selectDonutType;
+  String? selectedDonutType;
   List<DonutModel> filteredDonuts = [];
 
+
+  late DonutModel selectedDonut;
+
+  DonutModel getSelecteDonut() {
+    return selectedDonut;
+  }
+
+  void onDonutSelected(DonutModel donut) {
+    selectedDonut = donut;
+    Utils.mainAppNav.currentState!.pushNamed('/details');
+  }
+
   DonutService() {
-    selectDonutType = filterBarItems.first.id;
-    filteredDonutsByType(selectDonutType!);
+    selectedDonutType = filterBarItems.first.id;
+    filteredDonutsByType(selectedDonutType!);
   }
 
   void filteredDonutsByType(String type) {
-    selectDonutType = type;
-    filteredDonuts =
-        Utils.donuts.where((d) => d.type == selectDonutType).toList();
+    selectedDonutType = type;
+    filteredDonuts = Utils.donuts.where(
+      (d) => d.type == selectedDonutType).toList();
 
     notifyListeners();
   }
@@ -208,4 +224,37 @@ class DonutModel {
     this.price,
     this.type,
   });
+}
+
+class DonutShoppingCartService extends ChangeNotifier {
+
+  List<DonutModel> cartDonuts = [];
+
+  void addToCart(DonutModel donut) {
+    cartDonuts.add(donut);
+    notifyListeners();
+  }
+
+  void removeFromCart(DonutModel donut) {
+    cartDonuts.removeWhere((d) => d.name == donut.name);
+    notifyListeners();
+  }
+
+  void clearCart() {
+    cartDonuts.clear();
+    notifyListeners();
+  }
+
+  double getTotal() {
+    double cartTotal = 0.0;
+    cartDonuts.forEach((element) {
+      cartTotal += element.price!;
+    });
+
+    return cartTotal;
+  }
+
+  bool isDonutInCart(DonutModel donut) {
+    return cartDonuts.any((d) => d.name == donut.name);
+  }
 }
