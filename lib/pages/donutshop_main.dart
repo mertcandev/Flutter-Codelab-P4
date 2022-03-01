@@ -8,56 +8,43 @@ import 'package:flutter_codelab_p4/widgets/donutmainpage.dart';
 import 'package:flutter_codelab_p4/widgets/donutsidemenu.dart';
 
 class DonutShopMain extends StatelessWidget {
-
-  @override 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        child: DonutSideMenu()
-      ),
-      appBar: AppBar(
-        iconTheme: const IconThemeData(color: Utils.mainDark),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-        title: Image.network(Utils.donutLogoRedText, width: 120)
-      ),
-      body: Column(
-        children: [
+        drawer: Drawer(child: DonutSideMenu()),
+        appBar: AppBar(
+            iconTheme: const IconThemeData(color: Utils.mainDark),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            centerTitle: true,
+            title: Image.network(Utils.donutLogoRedText, width: 120)),
+        body: Column(children: [
           Expanded(
-            child: Navigator(
-              key: Utils.mainListNav,
-              initialRoute: '/main',
+              child: Navigator(
+                  key: Utils.mainListNav,
+                  initialRoute: '/main',
+                  onGenerateRoute: (RouteSettings settings) {
+                    Widget page;
+                    switch (settings.name) {
+                      case '/main':
+                        page = DonutMainPage();
+                        break;
+                      case '/favorites':
+                        page = Center(child: Text('favorites'));
+                        break;
+                      case '/shoppingcart':
+                        page = DonutShoppingCartPage();
+                        break;
+                      default:
+                        page = Center(child: Text('main'));
+                        break;
+                    }
 
-              onGenerateRoute: (RouteSettings settings) {
-                Widget page;
-                switch(settings.name) {
-                  case '/main':
-                    page = DonutMainPage();
-                    break;
-                  case '/favorites':
-                    page = Center(child: Text('favorites'));
-                    break;
-                  case '/shoppingcart':
-                    page = DonutShoppingCartPage();
-                    break;
-                  default:
-                    page = Center(child: Text('main'));
-                    break;
-                }
-
-                return PageRouteBuilder(pageBuilder: (_, __, ___) => page,
-                  transitionDuration: const Duration(seconds: 0)
-                );
-             }
-             
-           )
-
-
-          ),
+                    return PageRouteBuilder(
+                        pageBuilder: (_, __, ___) => page,
+                        transitionDuration: const Duration(seconds: 0));
+                  })),
           DonutBottomBar()
-        ]
-      )
-    );
+        ]));
   }
 }
